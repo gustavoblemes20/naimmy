@@ -1,1 +1,55 @@
 [23-Sep-2025 19:02:36 UTC] PHP Notice:  Function _load_textdomain_just_in_time was called <strong>incorrectly</strong>. Translation loading for the <code>woocommerce</code> domain was triggered too early. This is usually an indicator for some code in the plugin or theme running too early. Translations should be loaded at the <code>init</code> action or later. Please see <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 6.7.0.) in /var/www/html/wp-includes/functions.php on line 6121
+[23-Sep-2025 19:36:29 UTC] PHP Warning:  file_get_contents(https://downloads.wordpress.org/plugin/woocommerce-pix.latest-stable.zip): Failed to open stream: HTTP request failed! HTTP/1.1 404 File not found
+ in /var/www/html/install-theme-plugins.php on line 54
+[23-Sep-2025 19:36:30 UTC] PHP Fatal error:  Uncaught TypeError: Cannot access offset of type string on string in /var/www/html/wp-includes/widgets/class-wp-widget-search.php:49
+Stack trace:
+#0 /var/www/html/install-theme-plugins.php(139): WP_Widget_Search->widget('sidebar-1', Array)
+#1 {main}
+  thrown in /var/www/html/wp-includes/widgets/class-wp-widget-search.php on line 49
+[23-Sep-2025 19:36:30 UTC] PHP Fatal error:  Uncaught TypeError: ftp_nlist(): Argument #1 ($ftp) must be of type FTP\Connection, null given in /var/www/html/wp-admin/includes/class-wp-filesystem-ftpext.php:438
+Stack trace:
+#0 /var/www/html/wp-admin/includes/class-wp-filesystem-ftpext.php(438): ftp_nlist(NULL, '/var/www/html/w...')
+#1 /var/www/html/wp-admin/includes/class-wp-filesystem-ftpext.php(456): WP_Filesystem_FTPext->exists('/var/www/html/w...')
+#2 /var/www/html/wp-content/plugins/woocommerce/src/Internal/Admin/Logging/FileV2/File.php(254): WP_Filesystem_FTPext->is_file('/var/www/html/w...')
+#3 /var/www/html/wp-content/plugins/woocommerce/src/Internal/Admin/Logging/FileV2/File.php(437): Automattic\WooCommerce\Internal\Admin\Logging\FileV2\File->is_writable()
+#4 /var/www/html/wp-content/plugins/woocommerce/src/Internal/Admin/Logging/FileV2/FileController.php(135): Automattic\WooCommerce\Internal\Admin\Logging\FileV2\File->write('2025-09-23T19:3...')
+#5 /var/www/html/wp-content/plugins/woocommerce/src/Internal/Admin/Logging/LogHandlerFileV2.php(62): Automattic\WooCommerce\Internal\Admin\Logging\FileV2\FileController->write_to_file('fatal-errors', '2025-09-23T19:3...', 1758656190)
+#6 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-logger.php(189): Automattic\WooCommerce\Internal\Admin\Logging\LogHandlerFileV2->handle(1758656190, 'critical', 'Uncaught TypeEr...', Array)
+#7 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-logger.php(236): WC_Logger->log('critical', 'Uncaught TypeEr...', Array)
+#8 /var/www/html/wp-content/plugins/woocommerce/includes/class-woocommerce.php(438): WC_Logger->critical('Uncaught TypeEr...', Array)
+#9 [internal function]: WooCommerce->log_errors()
+#10 {main}
+  thrown in /var/www/html/wp-admin/includes/class-wp-filesystem-ftpext.php on line 438
+[23-Sep-2025 19:37:32 UTC] PHP Fatal error:  Uncaught TypeError: ftp_nlist(): Argument #1 ($ftp) must be of type FTP\Connection, null given in /var/www/html/wp-admin/includes/class-wp-filesystem-ftpext.php:438
+Stack trace:
+#0 /var/www/html/wp-admin/includes/class-wp-filesystem-ftpext.php(438): ftp_nlist(NULL, '/var/www/html/w...')
+#1 /var/www/html/wp-admin/includes/class-wp-filesystem-base.php(231): WP_Filesystem_FTPext->exists('/var/www/html/w...')
+#2 /var/www/html/wp-admin/includes/class-wp-filesystem-base.php(79): WP_Filesystem_Base->find_folder('/var/www/html/w...')
+#3 /var/www/html/wp-content/themes/astra/inc/lib/docs/class-astra-docs-loader.php(308): WP_Filesystem_Base->wp_content_dir()
+#4 /var/www/html/wp-content/themes/astra/inc/lib/docs/class-astra-docs-loader.php(333): Astra_Docs_Loader->get_base_path()
+#5 /var/www/html/wp-content/themes/astra/inc/lib/docs/class-astra-docs-loader.php(272): Astra_Docs_Loader->get_docs_folder()
+#6 /var/www/html/wp-content/themes/astra/inc/lib/docs/class-astra-docs-loader.php(180): Astra_Docs_Loader->get_local_docs_file_path()
+#7 /var/www/html/wp-content/themes/astra/inc/lib/docs/class-astra-docs-loader.php(159): Astra_Docs_Loader->get_local_docs_contents()
+#8 /var/www/html/wp-content/themes/astra/inc/extras.php(1489): Astra_Docs_Loader->get_remote_data()
+#9 /var/www/html/wp-content/themes/astra/admin/includes/class-astra-menu.php(340): astra_remote_docs_data()
+#10 /var/www/html/wp-includes/class-wp-hook.php(324): Astra_Menu->styles_scripts('toplevel_page_a...')
+#11 /var/www/html/wp-includes/class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#12 /var/www/html/wp-includes/plugin.php(517): WP_Hook->do_action(Array)
+#13 /var/www/html/wp-admin/admin-header.php(123): do_action('admin_enqueue_s...', 'toplevel_page_a...')
+#14 /var/www/html/wp-admin/admin.php(240): require_once('/var/www/html/w...')
+#15 {main}
+  thrown in /var/www/html/wp-admin/includes/class-wp-filesystem-ftpext.php on line 438
+[23-Sep-2025 19:37:32 UTC] PHP Fatal error:  Uncaught TypeError: ftp_nlist(): Argument #1 ($ftp) must be of type FTP\Connection, null given in /var/www/html/wp-admin/includes/class-wp-filesystem-ftpext.php:438
+Stack trace:
+#0 /var/www/html/wp-admin/includes/class-wp-filesystem-ftpext.php(438): ftp_nlist(NULL, '/var/www/html/w...')
+#1 /var/www/html/wp-admin/includes/class-wp-filesystem-ftpext.php(456): WP_Filesystem_FTPext->exists('/var/www/html/w...')
+#2 /var/www/html/wp-content/plugins/woocommerce/src/Internal/Admin/Logging/FileV2/File.php(254): WP_Filesystem_FTPext->is_file('/var/www/html/w...')
+#3 /var/www/html/wp-content/plugins/woocommerce/src/Internal/Admin/Logging/FileV2/File.php(437): Automattic\WooCommerce\Internal\Admin\Logging\FileV2\File->is_writable()
+#4 /var/www/html/wp-content/plugins/woocommerce/src/Internal/Admin/Logging/FileV2/FileController.php(135): Automattic\WooCommerce\Internal\Admin\Logging\FileV2\File->write('2025-09-23T19:3...')
+#5 /var/www/html/wp-content/plugins/woocommerce/src/Internal/Admin/Logging/LogHandlerFileV2.php(62): Automattic\WooCommerce\Internal\Admin\Logging\FileV2\FileController->write_to_file('fatal-errors', '2025-09-23T19:3...', 1758656252)
+#6 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-logger.php(189): Automattic\WooCommerce\Internal\Admin\Logging\LogHandlerFileV2->handle(1758656252, 'critical', 'Uncaught TypeEr...', Array)
+#7 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-logger.php(236): WC_Logger->log('critical', 'Uncaught TypeEr...', Array)
+#8 /var/www/html/wp-content/plugins/woocommerce/includes/class-woocommerce.php(438): WC_Logger->critical('Uncaught TypeEr...', Array)
+#9 [internal function]: WooCommerce->log_errors()
+#10 {main}
+  thrown in /var/www/html/wp-admin/includes/class-wp-filesystem-ftpext.php on line 438
