@@ -9,6 +9,22 @@ localhost {
     php_fastcgi php:9000
     file_server
     
+    # WordPress rewrite rules
+    @wp {
+        path_regexp ^/(wp-admin|wp-includes|wp-content|index\.php)
+    }
+    rewrite @wp /index.php?{query}
+    
+    # WooCommerce specific
+    @woo {
+        path /shop/*
+        path /cart/*
+        path /checkout/*
+        path /my-account/*
+        path /wc-api/*
+    }
+    rewrite @woo /index.php?{query}
+    
     # Security headers
     header {
         X-Content-Type-Options nosniff
