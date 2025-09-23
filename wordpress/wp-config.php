@@ -5,6 +5,7 @@
  */
 
 // Configurações do banco de dados
+define( 'WPCACHEHOME', '/var/www/html/wp-content/plugins/wp-super-cache/' );
 define('DB_NAME', 'naimmy_db');
 define('DB_USER', 'naimmy_user');
 define('DB_PASSWORD', 'naimmy_password_2024');
