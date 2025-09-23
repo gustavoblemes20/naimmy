@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  # Caddy Web Server
+  caddy:
+    image: caddy:2-alpine
+    container_name: naimmy-caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./wordpress:/srv
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./logs:/var/log/caddy
+    depends_on:
+      - php
+    restart: unless-stopped
+    networks:
+      - naimmy-network
+
+  # PHP-FPM
+  php:
+    build: .
+    container_name: naimmy-php
+    volumes:
+      - ./wordpress:/var/www/html
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
+    environment:
+      - WORDPRESS_DB_HOST=mysql:3306
+      - WORDPRESS_DB_NAME=naimmy_db
+      - WORDPRESS_DB_USER=naimmy_user
+      - WORDPRESS_DB_PASSWORD=naimmy_password_2024
+    depends_on:
+      - mysql
+    restart: unless-stopped
+    networks:
+      - naimmy-network
+
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: naimmy-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_2024
+      MYSQL_DATABASE: naimmy_db
+      MYSQL_USER: naimmy_user
+      MYSQL_PASSWORD: naimmy_password_2024
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    networks:
+      - naimmy-network
+    command: --default-authentication-plugin=mysql_native_password
+
+  # phpMyAdmin (opcional)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: naimmy-phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: naimmy_user
+      PMA_PASSWORD: naimmy_password_2024
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    restart: unless-stopped
+    networks:
+      - naimmy-network
+
+volumes:
+  caddy_data:
+  caddy_config:
+  mysql_data:
+
+networks:
+  naimmy-network:
+    driver: bridge

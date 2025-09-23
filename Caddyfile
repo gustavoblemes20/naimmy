@@ -1,0 +1,21 @@
+# Caddyfile para ambiente Docker
+{
+    auto_https off
+}
+
+# Site principal
+localhost {
+    root * /srv
+    php_fastcgi php:9000
+    file_server
+    
+    # Security headers
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        X-XSS-Protection "1; mode=block"
+    }
+    
+    # Gzip compression
+    encode gzip
+}
