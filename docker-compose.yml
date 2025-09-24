@@ -24,6 +24,7 @@ services:
     volumes:
       - ./wordpress:/var/www/html
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
       - ./php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
     environment:
       - WORDPRESS_DB_HOST=mysql:3306
