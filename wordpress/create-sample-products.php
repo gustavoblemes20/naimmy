@@ -212,3 +212,4 @@ echo "⚙️ Painel admin: http://localhost/wp-admin\n";
 ?>
 
 
+
