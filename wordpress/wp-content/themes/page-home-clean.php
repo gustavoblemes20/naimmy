@@ -1,0 +1,570 @@
+<?php
+/**
+ * Template Name: Home Miu Miu Clean
+ * Página inicial limpa sem header padrão do WordPress
+ */
+
+// Carregar WordPress sem header
+require_once('wp-load.php');
+
+// Definir variáveis necessárias
+$site_name = get_bloginfo('name');
+$site_description = get_bloginfo('description');
+$home_url = home_url();
+?>
+
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php wp_title('|', true, 'right'); ?><?php bloginfo('name'); ?></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Reset e base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #000;
+            background: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: #000;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            color: #8b7355;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+            flex-direction: row;
+        }
+
+        .nav-links li a {
+            color: #000;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links li a:hover {
+            color: #8b7355;
+        }
+
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #8b7355;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        .categories-dropdown {
+            position: relative;
+        }
+
+        .categories-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .dropdown-menu li {
+            padding: 0;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            text-transform: none;
+            font-size: 13px;
+        }
+
+        .dropdown-menu li:last-child a {
+            border-bottom: none;
+        }
+
+        /* Slide principal */
+        .hero-slider {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide.prev {
+            transform: translateY(-100%);
+        }
+
+        .slide-content {
+            text-align: center;
+            color: #fff;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+
+        .slide-title {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.8s ease 0.3s forwards;
+        }
+
+        .slide-subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.8s ease 0.5s forwards;
+        }
+
+        .slide-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #000;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.8s ease 0.7s forwards;
+        }
+
+        .slide-button:hover {
+            background: #8b7355;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Controles do slide */
+        .slide-controls {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .slide-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slide-dot.active {
+            background: #fff;
+            transform: scale(1.2);
+        }
+
+        .slide-dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Animações */
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .navbar-container {
+                padding: 0 15px;
+            }
+
+            .navbar-left {
+                gap: 20px;
+            }
+
+            .nav-links {
+                gap: 20px;
+                flex-direction: row;
+            }
+
+            .nav-links li a {
+                font-size: 12px;
+            }
+
+            .slide-title {
+                font-size: 32px;
+            }
+
+            .slide-subtitle {
+                font-size: 16px;
+            }
+
+            .slide-button {
+                padding: 12px 30px;
+                font-size: 12px;
+            }
+
+            .slide-controls {
+                bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar-left {
+                flex-direction: row;
+                gap: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                flex-direction: row;
+            }
+
+            .slide-title {
+                font-size: 24px;
+            }
+
+            .slide-subtitle {
+                font-size: 14px;
+            }
+        }
+
+        /* Loading */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Loading -->
+<div class="loading" id="loading">
+    <div class="loading-spinner"></div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar" id="navbar">
+    <div class="navbar-container">
+        <div class="navbar-left">
+            <a href="<?php echo $home_url; ?>" class="logo"><?php echo $site_name; ?></a>
+            <ul class="nav-links">
+                <li><a href="#destaques">Destaques</a></li>
+                <li class="categories-dropdown">
+                    <a href="#categorias">Categorias</a>
+                    <ul class="dropdown-menu" id="categoriesMenu">
+                        <?php
+                        // Carregar categorias do WooCommerce
+                        $product_categories = get_terms(array(
+                            'taxonomy' => 'product_cat',
+                            'hide_empty' => false,
+                        ));
+                        
+                        if (!empty($product_categories) && !is_wp_error($product_categories)) {
+                            foreach ($product_categories as $category) {
+                                echo '<li><a href="' . get_term_link($category) . '">' . $category->name . '</a></li>';
+                            }
+                        } else {
+                            // Categorias padrão se não houver categorias do WooCommerce
+                            $default_categories = array('Bolsas', 'Calçados', 'Ready to Wear', 'Acessórios', 'Carteiras', 'Bijuterias Finas');
+                            foreach ($default_categories as $category) {
+                                echo '<li><a href="#' . strtolower(str_replace(' ', '-', $category)) . '">' . $category . '</a></li>';
+                            }
+                        }
+                        ?>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Slider -->
+<div class="hero-slider" id="heroSlider">
+    <!-- Slide 1 -->
+    <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+        <div class="slide-content">
+            <h1 class="slide-title">Coleção FW25</h1>
+            <p class="slide-subtitle">Individualidade feminina em cada peça</p>
+            <a href="#colecao" class="slide-button">Explorar Coleção</a>
+        </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+        <div class="slide-content">
+            <h1 class="slide-title">Bolsas Icônicas</h1>
+            <p class="slide-subtitle">Design versátil e atemporal</p>
+            <a href="#bolsas" class="slide-button">Ver Bolsas</a>
+        </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1543163521-1bf539c55dd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+        <div class="slide-content">
+            <h1 class="slide-title">Calçados Elegantes</h1>
+            <p class="slide-subtitle">Conforto e sofisticação</p>
+            <a href="#calcados" class="slide-button">Descobrir</a>
+        </div>
+    </div>
+
+    <!-- Controles do slide -->
+    <div class="slide-controls">
+        <button class="slide-dot active" data-slide="0"></button>
+        <button class="slide-dot" data-slide="1"></button>
+        <button class="slide-dot" data-slide="2"></button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Configuração do slider
+class HeroSlider {
+    constructor() {
+        this.slides = document.querySelectorAll('.slide');
+        this.dots = document.querySelectorAll('.slide-dot');
+        this.currentSlide = 0;
+        this.slideInterval = null;
+        this.init();
+    }
+
+    init() {
+        this.bindEvents();
+        this.startAutoSlide();
+        this.hideLoading();
+    }
+
+    bindEvents() {
+        // Controles dos dots
+        this.dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                this.goToSlide(index);
+            });
+        });
+
+        // Pausar auto-slide no hover
+        const slider = document.getElementById('heroSlider');
+        slider.addEventListener('mouseenter', () => {
+            this.stopAutoSlide();
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            this.startAutoSlide();
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    }
+
+    goToSlide(index) {
+        // Remover classe active do slide atual
+        this.slides[this.currentSlide].classList.remove('active');
+        this.dots[this.currentSlide].classList.remove('active');
+
+        // Adicionar classe active ao novo slide
+        this.slides[index].classList.add('active');
+        this.dots[index].classList.add('active');
+
+        // Atualizar slide atual
+        this.currentSlide = index;
+
+        // Reiniciar auto-slide
+        this.startAutoSlide();
+    }
+
+    nextSlide() {
+        const nextIndex = (this.currentSlide + 1) % this.slides.length;
+        this.goToSlide(nextIndex);
+    }
+
+    startAutoSlide() {
+        this.stopAutoSlide();
+        this.slideInterval = setInterval(() => {
+            this.nextSlide();
+        }, 5000);
+    }
+
+    stopAutoSlide() {
+        if (this.slideInterval) {
+            clearInterval(this.slideInterval);
+            this.slideInterval = null;
+        }
+    }
+
+    hideLoading() {
+        setTimeout(() => {
+            const loading = document.getElementById('loading');
+            loading.classList.add('hidden');
+        }, 1000);
+    }
+}
+
+// Inicializar slider quando o DOM estiver carregado
+document.addEventListener('DOMContentLoaded', () => {
+    new HeroSlider();
+});
+
+// Smooth scroll para links internos
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+</script>
+
+</body>
+</html>
