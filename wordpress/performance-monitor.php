@@ -32,8 +32,12 @@ echo "   WP Cron: " . (DISABLE_WP_CRON ? 'Desabilitado' : 'Habilitado') . "\n";
 // 3. Verificar plugins ativos
 echo "\n3. PLUGINS ATIVOS:\n";
 $active_plugins = get_option('active_plugins');
-foreach ($active_plugins as $plugin) {
-    echo "   - " . $plugin . "\n";
+if ($active_plugins) {
+    foreach ($active_plugins as $plugin) {
+        echo "   - " . $plugin . "\n";
+    }
+} else {
+    echo "   Nenhum plugin ativo encontrado\n";
 }
 
 // 4. Verificar tamanho do banco de dados
@@ -65,12 +69,14 @@ echo "\n7. TESTE DE PERFORMANCE:\n";
 $start_time = microtime(true);
 
 // Simular carregamento de página
-$wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_status = 'publish'");
-$wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->comments} WHERE comment_approved = '1'");
+$posts_count = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_status = 'publish'");
+$comments_count = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->comments} WHERE comment_approved = '1'");
 
 $end_time = microtime(true);
 $execution_time = round(($end_time - $start_time) * 1000, 2);
 echo "   Tempo de consulta: {$execution_time}ms\n";
+echo "   Posts publicados: " . ($posts_count ?: 0) . "\n";
+echo "   Comentários aprovados: " . ($comments_count ?: 0) . "\n";
 
 // 8. Recomendações
 echo "\n8. RECOMENDAÇÕES:\n";

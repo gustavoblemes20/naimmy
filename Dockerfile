@@ -30,7 +30,8 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
         xml \
         soap \
         intl \
-        bcmath
+        bcmath \
+        opcache
 
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

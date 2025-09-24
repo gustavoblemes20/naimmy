@@ -68,20 +68,11 @@ define('COMPRESS_CSS', true);
 define('COMPRESS_SCRIPTS', true);
 define('ENFORCE_GZIP', true);
 
-// Configurações de banco de dados (OTIMIZADO)
-define('DB_COLLATE', 'utf8mb4_unicode_ci');
-
-// Configurações de cache de objetos
-define('WP_CACHE', true);
-
 // Configurações de performance adicional
 define('WP_CRON_LOCK_TIMEOUT', 60);
 
 // Configurações de SSL (para produção)
 define('FORCE_SSL_ADMIN', false);
-
-// Configurações de cache
-define('WP_CACHE_KEY_SALT', 'naimmy_cache_salt_2024');
 
 // Configurações de multisite (desabilitado)
 define('MULTISITE', false);
