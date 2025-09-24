@@ -119,3 +119,5 @@ echo "👤 Usuário: admin\n";
 echo "🔑 Senha: admin123\n";
 echo "📧 Email: admin@naimmy.com.br\n";
 ?>
+
+

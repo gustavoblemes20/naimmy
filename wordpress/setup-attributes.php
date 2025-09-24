@@ -64,3 +64,5 @@ foreach ($attributes as $name => $config) {
 
 echo "🎉 Atributos configurados com sucesso!\n";
 ?>
+
+

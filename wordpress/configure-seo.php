@@ -38,3 +38,5 @@ echo "🔍 SEO configurado com Yoast\n";
 echo "📊 Sitemap XML ativado\n";
 echo "🌐 Acesse: http://localhost/sitemap_index.xml\n";
 ?>
+
+

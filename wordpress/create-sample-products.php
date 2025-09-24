@@ -210,3 +210,5 @@ echo "🎉 Produtos de exemplo criados com sucesso!\n";
 echo "🛍️ Acesse a loja: http://localhost/shop\n";
 echo "⚙️ Painel admin: http://localhost/wp-admin\n";
 ?>
+
+

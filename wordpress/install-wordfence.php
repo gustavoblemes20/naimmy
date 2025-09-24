@@ -47,3 +47,5 @@ echo "  ✅ WP Super Cache (Performance)\n";
 echo "  ✅ Smush (Otimização de imagens)\n";
 echo "  ✅ Wordfence (Segurança)\n";
 ?>
+
+

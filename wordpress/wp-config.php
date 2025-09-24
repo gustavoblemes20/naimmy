@@ -88,3 +88,5 @@ if (!defined('ABSPATH')) {
 
 // Carregar WordPress
 require_once ABSPATH . 'wp-settings.php';
+
+

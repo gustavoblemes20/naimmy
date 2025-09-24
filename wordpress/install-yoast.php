@@ -42,3 +42,5 @@ echo "\n🎉 Yoast SEO instalado e ativado!\n";
 echo "🌐 Site: http://localhost\n";
 echo "⚙️ Admin: http://localhost/wp-admin\n";
 ?>
+
+

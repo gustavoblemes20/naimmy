@@ -41,3 +41,5 @@ if (is_wp_error($result)) {
     echo "Acesse: http://localhost/wp-admin\n";
 }
 ?>
+
+

@@ -173,3 +173,5 @@ foreach ($tags as $tag) {
 echo "\n🎉 Configuração do e-commerce concluída!\n";
 echo "📊 Categorias, subcategorias, atributos e tags configurados com sucesso!\n";
 ?>
+
+

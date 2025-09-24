@@ -27,3 +27,5 @@ if ($result) {
     echo "❌ Erro na instalação do WordPress\n";
 }
 ?>
+
+

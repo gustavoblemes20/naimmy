@@ -85,3 +85,5 @@ foreach ($subcategories as $parent_name => $children) {
 
 echo "🎉 Categorias configuradas com sucesso!\n";
 ?>
+
+
